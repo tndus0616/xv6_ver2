@@ -537,40 +537,9 @@ void
 exit2(int status)
 {
   struct proc *curproc = myproc();
-  struct proc *p;
-  int fd;
-
-  if(curproc == initproc)
-    panic("init exiting");
-
-  for(fd = 0; fd < NOFILE; fd++){
-    if(curproc->ofile[fd]){
-      fileclose(curproc->ofile[fd]);
-      curproc->ofile[fd] = 0;
-    }
-  }
-
-  begin_op();
-  iput(curproc->cwd);
-  end_op();
-  curproc->cwd = 0;
-
-  acquire(&ptable.lock);
-
-  wakeup1(curproc->parent);
-
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-    if(p->parent == curproc){
-      p->parent = initproc;
-      if(p->state == ZOMBIE)
-        wakeup1(initproc);
-    }
-  }
-
+  
   curproc->xstate = status;
-  curproc->state = ZOMBIE;
-  sched();
-  panic("zombie exit");
+  exit();
 }
 
 int
@@ -579,7 +548,7 @@ wait2(int *status)
   struct proc *p;
   int havekids, pid;
   struct proc *curproc = myproc();
-
+    
   acquire(&ptable.lock);
   for(;;){
     havekids = 0;
@@ -589,29 +558,27 @@ wait2(int *status)
       havekids = 1;
       if(p->state == ZOMBIE){
         pid = p->pid;
-        if(status != 0 && copyout(curproc->pgdir, (uint)status, &(p->xstate), sizeof(p->xstate)) < 0) {
+        if(status != null && copyout(curproc->pgdir, (uint)status, &(p->xstate), sizeof(p->xstate)) < 0) {
           release(&ptable.lock);
           return -1;
         }
         kfree(p->kstack);
         p->kstack = 0;
-        freevm(p->pgdir);
         p->pid = 0;
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
         p->state = UNUSED;
-        p->xstate = 0;
         release(&ptable.lock);
         return pid;
       }
     }
-
+    
     if(!havekids || curproc->killed){
       release(&ptable.lock);
       return -1;
     }
-
+    
     sleep(curproc, &ptable.lock);
   }
 }
