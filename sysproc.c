@@ -97,7 +97,7 @@ sys_exit2(void)
 
   if(argint(0, &status) < 0)
   return -1;
-  myproc()->xstate = status;
+  myproc()->xstate = 100;
   exit();
   return 0;
 }
