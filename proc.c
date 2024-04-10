@@ -534,10 +534,8 @@ procdump(void)
 }
 
 void
-exit2(int)
+exit2(int status)
 {
-  int status;
-
   if(argint(0, &status) < 0)
   return;
   myproc()->xstate = status;
@@ -545,9 +543,8 @@ exit2(int)
 }
 
 int
-wait2(int *)
+wait2(int *status)
 {
-  int *status;
   int pid; 
   struct proc *curproc = myproc();
 
