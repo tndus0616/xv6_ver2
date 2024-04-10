@@ -533,8 +533,8 @@ procdump(void)
   }
 }
 
-int
-exit2(void)
+void
+exit2(int)
 {
   int status;
 
@@ -546,7 +546,7 @@ exit2(void)
 }
 
 int
-wait2(void)
+wait2(int *)
 {
   int *status;
   int pid; 
