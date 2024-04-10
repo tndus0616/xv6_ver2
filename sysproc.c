@@ -96,8 +96,7 @@ sys_exit2(void)
   int status;
 
   if(argint(0, &status) < 0)
-    return -1;
-  
+  return -1;
   myproc()->xstate = status;
   exit();
   return 0;
@@ -108,16 +107,15 @@ sys_wait2(void)
 {
   int *status;
   int pid;
-  int xstate;
+  struct proc *curproc = myproc();
 
-  if(argptr(0, (void*)&status, sizeof(*status)) < 0) 
-    return -1;
+  if(argptr(0, (void*)&status, sizeof(*status)) < 0)
+  return -1;
 
-  pid = wait(&xstate);
-
+  pid = wait();
   if(pid > 0 && status != 0) {
-    if(copyout(myproc()->pgdir, (uint)status, &xstate, sizeof(xstate)) < 0)
-      return -1;
+  if(copyout(curproc->pgdir, (uint)status, &(curproc->xstate), sizeof(curproc->xstate)) < 0)
+    return -1;
   }
   return pid;
 }
