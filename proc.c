@@ -538,11 +538,10 @@ exit2(int)
 {
   int status;
 
-  if(argint(0, &status) < 0) //
-  return -1;
+  if(argint(0, &status) < 0)
+  return;
   myproc()->xstate = status;
   exit();
-  return 0;
 }
 
 int
