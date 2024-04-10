@@ -33,6 +33,5 @@ int main(int argc, char *argv[])
 		printf(1, "Child has finished: PID = %d\n", child_pid);
 		printf(1, "Child exited with code %d\n", status);
 	}
-	printf(1, "%d", exit_code);
 	exit2(exit_code);
 }
