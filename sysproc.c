@@ -93,8 +93,8 @@ sys_uptime(void)
 int
 sys_exit2(void)
 {
-  int status = 0;
-  
+  int status;
+  argint(0, &status);
   exit2(status);
   return 0;
 }
@@ -102,6 +102,7 @@ sys_exit2(void)
 int
 sys_wait2(int *)
 {
-  int *status = 0;
+  int *status;
+  argptr(0, (void*)&status, sizeof(*status));
   return wait2(status);
 }
