@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 		case 0:
 			message = "This is the child";
 			n = 5;
-			exit_code = 37;
+			exit_code = 36;
 			break;
 		default:
 			message = "This is the parent";
