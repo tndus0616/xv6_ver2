@@ -94,6 +94,7 @@ int
 sys_exit2(void)
 {
   int status;
+
   if(argint(0, &status) < 0)
     return -1;
   exit2(status);
@@ -103,8 +104,13 @@ sys_exit2(void)
 int
 sys_wait2(void)
 {
-  int status;
-  if(argptr(0, (void*)&status, sizeof(status)) < 0)
+  int *status;
+  int addr;
+
+  if(argint(0, &addr) < 0)
     return -1;
-  return wait2(&status);
+    
+  status = (int*)addr;
+
+  return wait2(status);
 }
