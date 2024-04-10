@@ -5,7 +5,8 @@ int main(int argc, char *argv[])
 {
 	int pid, child_pid;
 	char *message;
-	int n, status, exit_code;
+	int n, status;
+	int exit_code = 5;
 
 	pid = fork();
         switch(pid)	{
