@@ -558,7 +558,7 @@ wait2(int *status)
       havekids = 1;
       if(p->state == ZOMBIE){
         pid = p->pid;
-        if(status != null && copyout(curproc->pgdir, (uint)status, &(p->xstate), sizeof(p->xstate)) < 0) {
+        if(status != 0 && copyout(curproc->pgdir, (uint)status, &(p->xstate), sizeof(p->xstate)) < 0) {
           release(&ptable.lock);
           return -1;
         }
