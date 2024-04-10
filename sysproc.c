@@ -93,13 +93,15 @@ sys_uptime(void)
 int
 sys_exit2(void)
 {
-  int status;
+  int status = 0;
+  
   exit2(status);
+  return 0;
 }
 
 int
 sys_wait2(int *)
 {
-  int *status;
-  wait2(status);
+  int *status = 0;
+  return wait2(status);
 }
