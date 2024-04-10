@@ -90,15 +90,16 @@ sys_uptime(void)
   return xticks;
 }
 
-void
-sys_exit2(int)
+int
+sys_exit2(void)
 {
-  exit2(int);
-  return;  // not reached
+  int status;
+  exit2(status);
 }
 
 int
 sys_wait2(int *)
 {
-  return wait2(int *);
+  int *status;
+  wait2(status);
 }
