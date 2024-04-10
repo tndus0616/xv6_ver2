@@ -93,8 +93,12 @@ sys_uptime(void)
 int
 sys_exit2(void)
 {
-  if(argint(0, &myproc()->xstate) < 0)
+  int status;
+  
+  if(argint(0, &status) < 0)
   return -1;
+  printf(1,"%d",status);
+  myproc()->xstate = status;
   exit();
   return 0;
 }
