@@ -97,7 +97,6 @@ sys_exit2(void)
   
   if(argint(0, &status) < 0)
   return -1;
-  printf(1,"%d",status);
   myproc()->xstate = status;
   exit();
   return 0;
