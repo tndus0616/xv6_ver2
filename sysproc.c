@@ -93,29 +93,31 @@ sys_uptime(void)
 int
 sys_exit2(void)
 {
-int status;
+  int status;
 
-if(argint(0, &status) < 0)
-return -1;
-myproc()->xstate = status;
-exit();
-return 0;
+  if(argint(0, &status) < 0)
+    return -1;
+  
+  myproc()->xstate = status;
+  exit();
+  return 0;
 }
 
 int
 sys_wait2(void)
 {
-int *status;
-int pid;
-struct proc *curproc = myproc();
+  int *status;
+  int pid;
+  int xstate;
 
-if(argptr(0, (void*)&status, sizeof(*status)) < 0)
-return -1;
+  if(argptr(0, (void*)&status, sizeof(*status)) < 0) 
+    return -1;
 
-pid = wait();
-if(pid > 0 && status != 0) {
-if(copyout(curproc->pgdir, (uint)status, &(curproc->xstate), sizeof(curproc->xstate)) < 0)
-return -1;
-}
-return pid;
+  pid = wait(&xstate);
+
+  if(pid > 0 && status != 0) {
+    if(copyout(myproc()->pgdir, (uint)status, &xstate, sizeof(xstate)) < 0)
+      return -1;
+  }
+  return pid;
 }
