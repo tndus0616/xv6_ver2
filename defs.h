@@ -155,8 +155,6 @@ int             argstr(int, char**);
 int             fetchint(uint, int*);
 int             fetchstr(uint, char**);
 void            syscall(void);
-void            exit2(int status);
-int             wait2(int *status);
 
 // timer.c
 void            timerinit(void);
